@@ -33,27 +33,29 @@ def ModelInference(Onnxmodel_path,providers,Image_path,confidence_threshold=0.5,
     :param: imgs: image size like 640*640
     :return: [[x,y,x,y],conf,cls]
     """
-   
-    session=LoadOnnxmodel(Onnxmodel_path,providers)
-    img_array=ImageProcess(Image_path,imgs)
-    outputs=session.run(None, {"images": img_array})
-    predictions = outputs[0][0]  # 输出形状: (300, 6)
-    confidence_threshold = confidence_threshold
-    # predictions [x, y, w, h, conf, class] choose conf>confidence_threshold
-    results=predictions[predictions[:, 4] > confidence_threshold]
+    try:
+        session=LoadOnnxmodel(Onnxmodel_path,providers)
+        img_array=ImageProcess(Image_path,imgs)
+        outputs=session.run(None, {"images": img_array})
+        predictions = outputs[0][0]  # 输出形状: (300, 6)
+        confidence_threshold = confidence_threshold
+        # predictions [x, y, w, h, conf, class] choose conf>confidence_threshold
+        results=predictions[predictions[:, 4] > confidence_threshold]
 
-    boxb=[]
-    for r in results:
-        boxarray=[]
-        boxxyxy=r[0:3].tolist()
-        boxconf=r[4].tolist()
-        boxcls=r[5].tolist()
-        boxarray.append(boxxyxy)
-        boxarray.append(boxconf)
-        boxarray.append(boxcls)
-        boxb.append(boxarray)
+        boxb=[]
+        for r in results:
+            boxarray=[]
+            boxxyxy=r[0:4].tolist()
+            boxconf=r[4].tolist()
+            boxcls=r[5].tolist()
+            boxarray.append(boxxyxy)
+            boxarray.append(boxconf)
+            boxarray.append(boxcls)
+            boxb.append(boxarray)
 
-    return boxb
+        return boxb
+    except Exception as e:
+        return None
 
 #yolo inference
 def ModelInferenceByYOLO(Onnxmodel_path,providers,Image_path,confidence_threshold=0.5,imgs=224):
@@ -65,22 +67,26 @@ def ModelInferenceByYOLO(Onnxmodel_path,providers,Image_path,confidence_threshol
     :param: imgs: image size like 640*640
     :return: [[x,y,x,y],conf,cls]
     """
-    model = YOLO(Onnxmodel_path, task='detect')
-    results=model.predict(
-        source=Image_path,
-        conf=confidence_threshold,
-        iou=0.45,                   # 设置NMS的IoU阈值
-        device=providers               # 可选择使用GPU
-    )
-    array=[]
+    try:
+        model = YOLO(Onnxmodel_path, task='detect')
+        results=model.predict(
+            source=Image_path,
+            conf=confidence_threshold,
+            iou=0.45,                   # 设置NMS的IoU阈值
+            device=providers               # 可选择使用GPU
+        )
+        array=[]
 
-    for r in results:
-        boxes=r.boxes
-        for box in boxes:
-            arraybox=[]
-            arraybox.append(box.xyxy.numpy().tolist()[0])
-            arraybox.append(box.conf.numpy().tolist()[0])
-            arraybox.append(box.cls.numpy().tolist()[0])
-            array.append(arraybox)
+        for r in results:
+            boxes=r.boxes
+            for box in boxes:
+                arraybox=[]
+                arraybox.append(box.xyxy.numpy().tolist()[0])
+                arraybox.append(box.conf.numpy().tolist()[0])
+                arraybox.append(box.cls.numpy().tolist()[0])
+                array.append(arraybox)
 
-    return array
+        return array
+    except Exception as e:
+        return None
+        
