@@ -19,8 +19,8 @@ def ImageProcess(Image_path,imgs):
     :param: Image_path:image path
     :param: imgs: image size like 640*640
     """
-    img = Image.open(Image_path).resize((imgs, imgs))
-    return np.array(img).transpose(2, 0, 1)[np.newaxis, ...].astype(np.float32) / 255.0
+    # img = Image.open(Image_path).resize((imgs, imgs))
+    return np.array(Image_path).transpose(2, 0, 1)[np.newaxis, ...].astype(np.float32) / 255.0
 
 
 # 推理
@@ -55,6 +55,7 @@ def ModelInference(Onnxmodel_path,providers,Image_path,confidence_threshold=0.5,
 
         return boxb
     except Exception as e:
+        print(e)
         return None
 
 #yolo inference
