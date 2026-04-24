@@ -1,6 +1,8 @@
 # YOLO-for-NEU-DET-dataset FastAPI：
 这是一个使用YOLOV26对NEU-DET数据集进行目标检测的代码仓库，该项目还提供了一个使用FastAPI调用YOLOV26 ONNX模型的模板。
+
 English DOC：comming soon~~
+
 # 示例：
 以下是本项目的部分内容示例：
 <img width=600 src="./FastAPI_sample.png" alt="">
