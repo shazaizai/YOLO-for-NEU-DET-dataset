@@ -1,8 +1,8 @@
 # YOLO-for-NEU-DET-dataset FastAPI：
 This is a code repository for object detection on the NEU-DET dataset using YOLOv26. The project also provides a template for calling the YOLOv26 ONNX model using FastAPI.
 
-[中文版](./README_zh.md)
-[English](./README.md)
+[中文版 README](./README_zh.md)
+[English README](./README.md)
 
 # Example:
 The following is a sample of some content from this project:
@@ -130,4 +130,4 @@ def add_bboxs_on_img(label,images,Inference_result):
 
 4. Model quantization.
 
-5..........
+5. .........
