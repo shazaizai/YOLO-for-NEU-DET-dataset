@@ -1,38 +1,41 @@
 # YOLO-for-NEU-DET-dataset FastAPI：
-这是一个使用YOLOV26对NEU-DET数据集进行目标检测的代码仓库，该项目还提供了一个使用FastAPI调用YOLOV26 ONNX模型的模板。
+This is a code repository for object detection on the NEU-DET dataset using YOLOv26. The project also provides a template for calling the YOLOv26 ONNX model using FastAPI.
 
-### English DOC：Comming soon~~
+[中文版](./README_zh.md)
+[English](./README.md)
 
-# 示例：
-以下是本项目的部分内容示例：
+# Example:
+The following is a sample of some content from this project:
 
 <img width=600 src="./FastAPI_sample.png" alt="">
 
 ---
-# 开始
+# Start
 
-## 本地部署：
-在本地部署该项目，需要一下几个步骤：
+## Local deployment:
+Deploying this project locally requires the following steps:
 
-1.安装软件包：
+1. Install the software package:
 ```
 pip install -r requirements.txt
-```
-2.启动应用：
+
+``` 
+2. Start the application:
+
 ```
 python app.py
 ```
 
-# FastAPI文档地址：
+# FastAPI documentation address:
 http://localhost:8080/docs
 
 <img width=600 src="./FastAPI_doc.png" alt="">
 
 ---
-# 🚀代码示例：
+# 🚀Code example:
 
-### 示例1：
-以下代码演示如何使用onnx模型进行目标检测推理任务，并返回检测结果：
+### example1：
+The following code demonstrates how to use the ONNX model for object detection inference and returns the detection results:
 ```python
 def ModelInference(Onnxmodel_path,providers,Image_path,confidence_threshold=0.5,imgs=224):
     """
@@ -68,12 +71,12 @@ def ModelInference(Onnxmodel_path,providers,Image_path,confidence_threshold=0.5,
         print(e)
         return None
 ```
-输出：
+output：
 ```
 [[x,y,x,y],conf,cls]
 ```
-此外该项目还有使用yolo自带工具进行推理的方法，ModelInferenceByYOLO()，输入参数跟输入与ModelInference()一样。
-当然了该项目也提供了方法可以进行自定义调用：
+In addition, the project also has a method for inference using YOLO's built-in tools, ModelInferenceByYOLO(), with the same input parameters as ModelInference().
+Of course, the project also provides methods for custom invocation:
 ```python
 def get_model_pridict(Onnxmodel_path,providers,input_image,confidience=0.5,imgs=224,Inference_method='Normal'):
     """
@@ -88,14 +91,14 @@ def get_model_pridict(Onnxmodel_path,providers,input_image,confidience=0.5,imgs=
         
         return None
 ```
-输出：
+output：
 ```
 [[x,y,x,y],conf,cls]
 ```
-通过Inference_method=YOLO或者使用默认方式进行函数调用。
+Function calls can be made using Inference_method=YOLO or by using the default method.
 
-### 示例2：绘制检测结果在图像上
-以下代码演示如何将检测结果绘制在图片上
+### Example 2: Plotting the detection results on the image
+The following code demonstrates how to plot the detection results on an image.
 ```python
 def add_bboxs_on_img(label,images,Inference_result):
     """
@@ -117,13 +120,14 @@ def add_bboxs_on_img(label,images,Inference_result):
         print("add_bboxs_on_img",e)
         return None
 ```
-# 后续展望
-1.不同平台部署ONNX模型。
+# Future Prospects
 
-2.TensorRT模型推理加速。
+1. Deploy ONNX models on different platforms.
 
-3.视频检测功能。
+2. Accelerate TensorRT model inference.
 
-4.模型量化。
+3. Video detection functionality.
+
+4. Model quantization.
 
 5..........
